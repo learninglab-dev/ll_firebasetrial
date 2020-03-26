@@ -22,6 +22,7 @@ class App extends React.Component {
     let ref = Firebase.database().ref('/');
     ref.on('value', snapshot => {
       const state = snapshot.val();
+      console.log(state)
       this.setState(state);
     });
     console.log('DATA RETRIEVED');
@@ -91,17 +92,21 @@ class App extends React.Component {
     let uid = this.refs.uid.value;
 
     if (uid && name && role){
+      console.log('if')
       const { developers } = this.state;
       const devIndex = developers.findIndex(data => {
         return data.uid === uid
       });
+      //not in strict mode; adds new properties
       developers[devIndex].name = name;
       developers[devIndex].role = role;
       this.setState({ developers })
     }
     else if (name && role) {
+      console.log('else if')
       const uid = new Date().getTime().toString();
       const { developers } = this.state;
+      console.log(developers)
       developers.push({ uid, name, role })
       this.setState({ developers });
     }
@@ -116,7 +121,7 @@ class App extends React.Component {
     });
     this.setState({ developers: newState });
   }
-  updateDatas = (developer) => {
+  updateData = (developer) => {
     this.refs.uid.value = developer.uid;
     this.refs.name.value = developer.name;
     this.refs.role.value = developer.role;
